@@ -1,5 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# Install required plugins:
+required_plugins = ["vagrant-hostsupdater"]
+required_plugins.each do |plugin|
+    exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
 
 
 Vagrant.configure("2") do |config|

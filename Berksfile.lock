@@ -1,0 +1,11 @@
+DEPENDENCIES
+  db
+    git: git@github.com:MannyJ100/cookbook-mongodb.git
+    revision: 0a314b69d244f0208323b6fb82f2504709c0d50b
+  node
+    git: git@github.com:MannyJ100/Cookbook-Node.git
+    revision: 23ab261fa92cf90dc3db62ff30794e79a6c85e0c
+
+GRAPH
+  db (0.1.0)
+  node (0.1.0)

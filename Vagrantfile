@@ -9,17 +9,20 @@ end
 Vagrant.configure("2") do |config|
 
 	config.vm.define "app" do |app|
- 
   		app.vm.box = "ubuntu/xenial64"
   		app.vm.network "private_network", ip: "192.168.10.100"
   		app.hostsupdater.aliases = ["dev.local"]
-
-  	#Synced app folder
+    #Synced app folder
   		app.vm.synced_folder "app", "/home/ubuntu/app"
-  
+      app.vm.provision "chef_solo" do |chef|
+          chef.add_recipe "node::default"
+      end
+  		
+      # Sync templates folder
+  		# app.vm.synced_folder "./environment/app/templates", "/home/ubuntu/templates"
   	# Provision
-  		app.vm.provision "shell", path: "environment/app/provision.sh"
-  
+  		# app.vm.provision "shell", path: "environment/app/provision.sh"
+ 
 	end
 
 	# second box for db
@@ -29,16 +32,12 @@ Vagrant.configure("2") do |config|
 		db.vm.box = "ubuntu/xenial64"
 		db.vm.network "private_network", ip: "192.168.10.150"
 		db.hostsupdater.aliases = ["database.local"]
-
-		# synced folder for db
-		db.vm.synced_folder "./environment/db", "/home/ubuntu/db"
-
-		db.vm.provision "shell", path: "environment/db/provision.sh"
-
-		# db.vm.provider :virtualbox do |v|
-  #    	v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-  #    	v.customize ["modifyvm", :id, "--memory", 512]
-  #    	v.customize ["modifyvm", :id, "--name", "db"]
-  #  		end
-	end
+    db.vm.provision "chef_solo" do |chef|
+         chef.add_recipe "db::default"
+     end
+  end
 end
+		# synced folder for db
+		# db.vm.synced_folder "./environment/db", "/home/ubuntu/db"
+
+		# db.vm.provision "shell", path: "environment/db/provision.sh"

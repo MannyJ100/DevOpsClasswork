@@ -47,3 +47,7 @@ if you wish to destroy the file, type into the terminal:
 
 - vagrant destroy
 
+
+
+
+
